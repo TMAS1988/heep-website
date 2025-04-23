@@ -1,0 +1,100 @@
+from zipfile import ZipFile
+import os
+
+# Define a simple Next.js style website project structure with placeholder HTML/CSS/JS files
+project_files = {
+    "heep-website/pages/index.html": """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>HEEP - Home</title>
+  <link rel="stylesheet" href="/styles/style.css" />
+</head>
+<body>
+  <header>
+    <h1>Holistic Efforts to Eradicate Poverty</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="blog.html">Blog</a>
+      <a href="bootcamp.html">Bootcamp</a>
+      <a href="donate.html">Donate</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+  <main>
+    <h2>Welcome to HEEP</h2>
+    <p>We focus on SDG 1: No Poverty and SDG 8: Decent Work and Economic Growth.</p>
+    <section class="bootcamp">
+      <h3>Upcoming Bootcamp</h3>
+      <p>Empowerment Training - May 2025</p>
+      <a href="#">Register Now</a>
+    </section>
+  </main>
+</body>
+</html>
+""",
+
+    "heep-website/pages/donate.html": """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Donate - HEEP</title>
+</head>
+<body>
+  <h1>Support Our Work</h1>
+  <p>Your donation helps us reach more communities and run impactful bootcamps.</p>
+  <!-- Placeholder PayPal button -->
+  <form action="https://www.paypal.com/donate" method="post" target="_top">
+    <input type="hidden" name="business" value="your_paypal_email@example.com" />
+    <input type="hidden" name="no_recurring" value="0" />
+    <input type="hidden" name="currency_code" value="USD" />
+    <input type="submit" value="Donate with PayPal" />
+  </form>
+</body>
+</html>
+""",
+
+    "heep-website/pages/bootcamp.html": """
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bootcamps - HEEP</title>
+</head>
+<body>
+  <h1>HEEP Bootcamps</h1>
+  <p>Join our health, environment, and economic empowerment trainings.</p>
+  <ul>
+    <li>Youth Empowerment - Kampala - May 2025</li>
+    <li>Women's Skills Bootcamp - Fort Portal - June 2025</li>
+  </ul>
+  <a href="#">Register Now</a>
+</body>
+</html>
+""",
+
+    "heep-website/pages/about.html": "<h1>About Us</h1><p>We are an NGO working to eradicate poverty through health, environment, and economic efforts.</p>",
+    "heep-website/pages/blog.html": "<h1>Our Blog</h1><p>Articles on SDG 1 and SDG 8 will appear here.</p>",
+    "heep-website/pages/contact.html": "<h1>Contact Us</h1><p>Email: info@heepuganda.org</p>",
+    "heep-website/styles/style.css": "body { font-family: Arial, sans-serif; margin: 2rem; } header nav a { margin-right: 1rem; }",
+}
+
+# Create the ZIP file
+zip_path = "/mnt/data/heep-website.zip"
+with ZipFile(zip_path, 'w') as zipf:
+    for filepath, content in project_files.items():
+        # Create temporary file path to write the content
+        temp_path = f"/tmp/{filepath}"
+        os.makedirs(os.path.dirname(temp_path), exist_ok=True)
+        with open(temp_path, 'w') as f:
+            f.write(content)
+        # Write to ZIP
+        zipf.write(temp_path, arcname=filepath)
+
+zip_path
